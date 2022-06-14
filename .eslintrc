@@ -1,0 +1,20 @@
+{
+  "plugins": ["testing-library", "jest-dom", "jest", "simple-import-sort", "import"],
+  "extends": [
+    "alloy",
+    "alloy/react",
+    "alloy/typescript",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended"
+  ],
+  "env": {
+    "jest/globals": true
+  },
+  "rules": {
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "simple-import-sort/exports": "error",
+    "simple-import-sort/imports": "error"
+  }
+}
