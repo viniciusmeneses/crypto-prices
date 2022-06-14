@@ -1,0 +1,25 @@
+type Ticker {
+  lastPrice: String!
+  lowPrice: String!
+  highPrice: String!
+}
+
+type Market {
+  marketSymbol: String!
+  ticker: Ticker
+}
+
+input StringFilter {
+  _eq: String
+  _neq: String
+}
+
+input MarketsFilter {
+  baseSymbol: StringFilter
+  quoteSymbol: StringFilter
+  exchangeSymbol: StringFilter
+}
+
+type Query {
+  markets(filter: MarketsFilter): [Market!]!
+}
