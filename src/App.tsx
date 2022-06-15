@@ -1,21 +1,12 @@
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { ApolloProvider } from "@apollo/client";
 
-export default App;
+import { GlobalStyles } from "./GlobalStyles";
+import { apolloClient } from "./graphql";
+import { MainPage } from "./pages";
+
+export const App = () => (
+  <ApolloProvider client={apolloClient}>
+    <GlobalStyles />
+    <MainPage />
+  </ApolloProvider>
+);
