@@ -1,7 +1,7 @@
-query AssetLastPrice($asset: String, $currency: String) {
+query AssetLastPrice($code: String, $currency: String) {
   markets(
     filter: {
-      baseSymbol: { _eq: $asset }
+      baseSymbol: { _eq: $code }
       quoteSymbol: { _eq: $currency }
       exchangeSymbol: { _neq: "Binance" } # Binance exchange prices are outdated
     }

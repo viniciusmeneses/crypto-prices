@@ -50,7 +50,7 @@ export type Ticker = {
 };
 
 export type AssetLastPriceQueryVariables = Exact<{
-  asset: InputMaybe<Scalars['String']>;
+  code: InputMaybe<Scalars['String']>;
   currency: InputMaybe<Scalars['String']>;
 }>;
 
@@ -59,9 +59,9 @@ export type AssetLastPriceQuery = { __typename?: 'Query', markets: Array<{ __typ
 
 
 export const AssetLastPriceDocument = gql`
-    query AssetLastPrice($asset: String, $currency: String) {
+    query AssetLastPrice($code: String, $currency: String) {
   markets(
-    filter: {baseSymbol: {_eq: $asset}, quoteSymbol: {_eq: $currency}, exchangeSymbol: {_neq: "Binance"}}
+    filter: {baseSymbol: {_eq: $code}, quoteSymbol: {_eq: $currency}, exchangeSymbol: {_neq: "Binance"}}
   ) {
     marketSymbol
     ticker {
@@ -83,7 +83,7 @@ export const AssetLastPriceDocument = gql`
  * @example
  * const { data, loading, error } = useAssetLastPriceQuery({
  *   variables: {
- *      asset: // value for 'asset'
+ *      code: // value for 'code'
  *      currency: // value for 'currency'
  *   },
  * });
