@@ -1,5 +1,4 @@
 import { FocusEvent, InputHTMLAttributes, LabelHTMLAttributes, useCallback, useState } from "react";
-import styled from "styled-components";
 
 import { StyledContainer, StyledInput, StyledLabel } from "./styles";
 
@@ -9,7 +8,8 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 export type LabelProps = LabelHTMLAttributes<HTMLLabelElement> & {
-  shrink?: boolean;
+  focus: boolean;
+  shrink: boolean;
 };
 
 export const Input = ({ label, name, value, onFocus, onBlur, ...props }: InputProps) => {
@@ -34,7 +34,7 @@ export const Input = ({ label, name, value, onFocus, onBlur, ...props }: InputPr
   return (
     <StyledContainer>
       {label && (
-        <StyledLabel htmlFor={name} shrink={isFocused || Boolean(value)}>
+        <StyledLabel htmlFor={name} shrink={isFocused || Boolean(value)} focus={isFocused}>
           {label}
         </StyledLabel>
       )}
@@ -42,6 +42,7 @@ export const Input = ({ label, name, value, onFocus, onBlur, ...props }: InputPr
         type="text"
         id={name}
         name={name}
+        value={value}
         onFocus={onInputFocus}
         onBlur={onInputBlur}
         {...props}

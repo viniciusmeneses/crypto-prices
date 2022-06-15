@@ -1,9 +1,10 @@
+import { darken } from "polished";
 import styled from "styled-components";
 
 import { ButtonProps } from ".";
 
 export const StyledButton = styled.button<ButtonProps>`
-  background-color: #fd4b24;
+  background-color: ${({ theme }) => theme.colors.primary};
   color: #fff;
   padding: 0 2rem;
   border-radius: 2rem;
@@ -15,6 +16,6 @@ export const StyledButton = styled.button<ButtonProps>`
   transition: ease 0.2s;
 
   &:hover {
-    background-color: #fc3307;
+    background-color: ${({ theme }) => darken(0.2, theme.colors.primary)};
   }
 `;

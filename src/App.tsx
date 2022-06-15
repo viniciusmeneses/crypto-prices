@@ -1,12 +1,14 @@
 import { ApolloProvider } from "@apollo/client";
 
-import { GlobalStyles } from "./GlobalStyles";
 import { apolloClient } from "./graphql";
 import { MainPage } from "./pages";
+import { GlobalStyles, ThemeProvider } from "./Theme";
 
 export const App = () => (
   <ApolloProvider client={apolloClient}>
-    <GlobalStyles />
-    <MainPage />
+    <ThemeProvider>
+      <GlobalStyles />
+      <MainPage />
+    </ThemeProvider>
   </ApolloProvider>
 );
