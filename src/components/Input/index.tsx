@@ -5,6 +5,7 @@ import { StyledContainer, StyledInput, StyledLabel } from "./styles";
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
   label?: string;
+  fullWidth?: boolean;
 };
 
 export type LabelProps = LabelHTMLAttributes<HTMLLabelElement> & {
