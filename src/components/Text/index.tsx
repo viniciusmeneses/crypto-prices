@@ -4,8 +4,7 @@ import { theme } from "../../Theme";
 import { StyledText } from "./styles";
 
 export type TextProps = HTMLAttributes<HTMLParagraphElement> & {
-  color?: keyof typeof theme["colors"];
-  size?: "large" | "normal" | "small";
+  color?: keyof typeof theme["colors"] | string;
 };
 
 export const Text = StyledText;
