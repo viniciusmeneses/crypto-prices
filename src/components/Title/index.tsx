@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "react";
 
-import { theme } from "../../Theme";
+import { theme } from "../../theme";
 import { StyledTitle } from "./styles";
 
 export type TitleProps = HTMLAttributes<HTMLParagraphElement> & {

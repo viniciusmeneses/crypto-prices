@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "react";
 
-import { theme } from "../../Theme";
+import { theme } from "../../theme";
 import { StyledText } from "./styles";
 
 export type TextProps = HTMLAttributes<HTMLParagraphElement> & {
