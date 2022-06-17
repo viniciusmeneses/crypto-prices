@@ -26,6 +26,12 @@ export const MainPage = () => {
     [setAssetCodes],
   );
 
+  const onRemoveAsset = useCallback(
+    (assetCode: string) => () =>
+      setAssetCodes((codes) => codes.filter((code) => assetCode !== code)),
+    [setAssetCodes],
+  );
+
   return (
     <Page>
       <Container>
@@ -53,6 +59,16 @@ export const MainPage = () => {
             Use of this service is subject to terms and conditions.
           </TermsAndConditionsText>
         </AddAssetCard>
+
+        <AssetsListSection>
+          {assetCodes.length > 0 && (
+            <AssetsList>
+              {assetCodes.map((code) => (
+                <Asset key={code} code={code} onRemove={onRemoveAsset(code)} />
+              ))}
+            </AssetsList>
+          )}
+        </AssetsListSection>
       </Container>
 
       <Footer>

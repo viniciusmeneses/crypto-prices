@@ -81,3 +81,22 @@ export const FooterText = styled(Text).attrs({
   font-size: 0.9rem;
 `;
 
+export const AssetsListSection = styled.section`
+  width: 100%;
+`;
+
+export const AssetsList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  margin: 2rem 0 0 0;
+  padding: 0 1rem 0 0;
+  overflow-y: auto;
+  max-height: 17rem;
+  width: min-content;
+
+  & > li {
+    width: 19rem;
+    border-bottom: 1px solid ${({ theme }) => transparentize(0.3, theme.colors.whiteTransparent)};
+    padding: 1rem 0;
+  }
+`;
