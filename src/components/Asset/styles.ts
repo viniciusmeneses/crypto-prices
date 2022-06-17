@@ -1,4 +1,4 @@
-import { opacify, transparentize } from "polished";
+import { opacify } from "polished";
 import styled from "styled-components";
 
 import { Text } from "../Text";

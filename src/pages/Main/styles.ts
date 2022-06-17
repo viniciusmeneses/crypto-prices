@@ -3,10 +3,9 @@ import styled from "styled-components";
 
 import background from "../../assets/images/background.png";
 import figure from "../../assets/images/figure.png";
-import { Card, Text, Title } from "../../components";
+import { Text, Title } from "../../components";
 
 export const Page = styled.main`
-  min-width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -45,21 +44,74 @@ export const Container = styled.div`
   background-color: #2a0a4a;
   background-image: url(${figure}), url(${background});
   background-repeat: no-repeat, no-repeat;
-  background-position: 33vw 100%, 70vw 100%;
-  background-size: 30vw, contain;
+  background-position: 45% 100%, 70vw 0%;
+  background-size: 30rem, contain;
+
+  @media (max-width: 1485px) {
+    & {
+      background-size: 25rem, contain;
+      background-position: 45% 100%, 70vw 0%;
+    }
+  }
+
+  @media (max-width: 1370px) {
+    & {
+      background-size: 20rem, contain;
+      background-position: calc(100% - 8rem) 100%, 70vw 0%;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    & {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      flex-direction: column;
+      background-image: none, url(${background});
+    }
+  }
+
+  @media (max-width: 768px) {
+    & {
+      padding: 2rem 3rem 2rem 3rem;
+    }
+  }
 `;
 
 export const TitlesSection = styled.section`
   display: flex;
   flex-direction: column;
+  flex: 1;
 
   & > * {
     margin-top: 1rem;
   }
+
+  @media (max-width: 1000px) {
+    & {
+      flex: 0;
+      margin: 0;
+    }
+  }
 `;
 
-export const AddAssetCard = styled(Card)`
+export const AddAssetContainer = styled.div`
   width: 25rem;
+
+  @media (max-width: 1280px) {
+    & {
+      flex: 1;
+      width: auto;
+      padding-left: 5rem;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    & {
+      padding: 0;
+      margin-top: 2rem;
+      flex: 0;
+    }
+  }
 `;
 
 export const TermsAndConditionsText = styled(Text).attrs({
@@ -73,6 +125,18 @@ export const TermsAndConditionsText = styled(Text).attrs({
 export const Footer = styled.footer`
   background-color: ${({ theme }) => theme.colors.white};
   padding: 3.5rem 10rem 2rem 10rem;
+
+  @media (max-width: 1000px) {
+    & {
+      padding: 3.5rem 8rem 2rem 8rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    & {
+      padding: 3.5rem 3rem 2rem 3rem;
+    }
+  }
 `;
 
 export const FooterText = styled(Text).attrs({
@@ -88,15 +152,23 @@ export const AssetsListSection = styled.section`
 export const AssetsList = styled.ul`
   display: flex;
   flex-direction: column;
-  margin: 2rem 0 0 0;
-  padding: 0 1rem 0 0;
+  margin: 0;
+  margin-top: 2rem;
+  padding: 0;
+  padding-right: 1rem;
   overflow-y: auto;
+  max-width: 20rem;
   max-height: 17rem;
-  width: min-content;
 
   & > li {
-    width: 19rem;
     border-bottom: 1px solid ${({ theme }) => transparentize(0.3, theme.colors.whiteTransparent)};
     padding: 1rem 0;
+  }
+
+  @media (max-width: 1000px) {
+    & {
+      max-width: 100%;
+      max-height: 100%;
+    }
   }
 `;

@@ -1,9 +1,9 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 import logo from "../../assets/images/logo.svg";
-import { AddAssetForm, AddAssetFormProps, Asset, Title } from "../../components";
+import { AddAssetForm, Asset, Card, Title } from "../../components";
 import {
-  AddAssetCard,
+  AddAssetContainer,
   AssetsList,
   AssetsListSection,
   Container,
@@ -43,17 +43,19 @@ export const MainPage = () => {
           </Subtitle>
         </TitlesSection>
 
-        <AddAssetCard>
-          <AddAssetForm
-            onSuccess={({ assetCode }) =>
-              setAssetCodes((codes) => [assetCode, ...removeAssetCode(codes, assetCode)])
-            }
-          />
+        <AddAssetContainer>
+          <Card>
+            <AddAssetForm
+              onSuccess={({ assetCode }) =>
+                setAssetCodes((codes) => [assetCode, ...removeAssetCode(codes, assetCode)])
+              }
+            />
 
-          <TermsAndConditionsText>
-            Use of this service is subject to terms and conditions.
-          </TermsAndConditionsText>
-        </AddAssetCard>
+            <TermsAndConditionsText>
+              Use of this service is subject to terms and conditions.
+            </TermsAndConditionsText>
+          </Card>
+        </AddAssetContainer>
 
         <AssetsListSection>
           {assetCodes.length > 0 && (

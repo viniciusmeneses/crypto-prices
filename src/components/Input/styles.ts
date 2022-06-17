@@ -19,6 +19,7 @@ export const StyledLabel = styled.label<LabelProps>`
   transition: ease 0.2s;
   pointer-events: none;
   letter-spacing: 0.05rem;
+  white-space: nowrap;
 
   color: ${({ focus, invalid, theme }) => {
     if (focus) return theme.colors.primary;
