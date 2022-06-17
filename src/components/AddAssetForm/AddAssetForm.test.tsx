@@ -6,9 +6,11 @@ import { AssetLastPriceQuery } from "../../graphql/generated";
 import { graphqlServer, render } from "../../mocks";
 import { AddAssetForm } from ".";
 
+const fn = () => {};
+
 describe("AddAssetForm", () => {
   it("should have a input and a button", () => {
-    render(<AddAssetForm />);
+    render(<AddAssetForm onSuccess={fn} />);
     const input = screen.getByRole("textbox", { name: /cryptocurrency code/i });
     const submitButton = screen.getByRole("button", { name: /add/i });
 
@@ -50,15 +52,34 @@ describe("AddAssetForm", () => {
       ),
     );
 
-    render(<AddAssetForm />);
+    render(<AddAssetForm onSuccess={fn} />);
 
     const input = screen.getByRole("textbox");
     const submitButton = screen.getByRole("button");
 
-    userEvent.type(input, "Invalid cryptocurrency code");
+    userEvent.type(input, "Invalid code");
     userEvent.click(submitButton);
 
-    const errorMessage = await screen.findByText(/invalid cryptocurrency code/i);
+    const errorMessage = await screen.findByText(/invalid code/i);
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it("should show error message on API error", async () => {
+    graphqlServer.use(
+      graphql.query<AssetLastPriceQuery>("AssetLastPrice", (_, res, ctx) =>
+        res(ctx.errors([{ message: "Sample error" }])),
+      ),
+    );
+
+    render(<AddAssetForm onSuccess={fn} />);
+
+    const input = screen.getByRole("textbox");
+    const submitButton = screen.getByRole("button");
+
+    userEvent.type(input, "BTC");
+    userEvent.click(submitButton);
+
+    const errorMessage = await screen.findByText(/failed to get cryptocurrency/i);
     expect(errorMessage).toBeInTheDocument();
   });
 });

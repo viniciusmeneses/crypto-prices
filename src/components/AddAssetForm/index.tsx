@@ -2,10 +2,10 @@ import { FormEvent, useCallback, useState } from "react";
 
 import { useAssetLastPriceLazyQuery } from "../../graphql/generated";
 import { Input } from "../Input";
-import { StyledButton } from "./styles";
+import { StyledForm, StyledSubmitButton } from "./styles";
 
 export interface AddAssetFormProps {
-  onSuccess?: (data: { assetCode: string }) => void;
+  onSuccess: (data: { assetCode: string }) => void;
   onError?: (error: { assetCode: string; message: string }) => void;
 }
 
@@ -21,45 +21,45 @@ export const AddAssetForm = ({ onSuccess, onError }: AddAssetFormProps) => {
     [setErrorMessage, onError],
   );
 
-  const [getAssetLastPrice, { loading }] = useAssetLastPriceLazyQuery({
-    onCompleted: ({ markets }) => {
-      const anyMarketPrice = markets.some((market) => market.ticker?.lastPrice);
-      if (anyMarketPrice) {
-        setAssetCode("");
-        onSuccess?.({ assetCode });
-      } else {
-        onFormError("Invalid cryptocurrency code");
-      }
-    },
-    onError: () => onFormError("Failed to fetch cryptocurrency"),
-  });
+  const [getAssetLastPrice, { loading }] = useAssetLastPriceLazyQuery();
 
   const onSubmit = useCallback(
-    (event: FormEvent) => {
+    async (event: FormEvent) => {
       event.preventDefault();
-      setErrorMessage("");
-
       if (loading || assetCode.length === 0) return;
-      getAssetLastPrice({ variables: { code: assetCode, currency: "EUR" } });
+
+      const { data, error } = await getAssetLastPrice({
+        variables: { code: assetCode, currency: "EUR" },
+      });
+
+      if (error) return onFormError("FAILED TO GET CRYPTOCURRENCY");
+
+      const anyMarketPrice = data?.markets.some((market) => market.ticker?.lastPrice);
+      if (!anyMarketPrice) return onFormError("INVALID CODE");
+
+      setAssetCode("");
+      onSuccess({ assetCode });
     },
     [assetCode, onError],
   );
 
   return (
-    <form onSubmit={onSubmit}>
+    <StyledForm onSubmit={onSubmit}>
       <Input
         name="assetCode"
         label="CRYPTOCURRENCY CODE"
         value={assetCode}
-        onChange={(event) => setAssetCode(event.target.value.toUpperCase())}
+        error={errorMessage}
+        onChange={(event) => {
+          setAssetCode(event.target.value.toUpperCase());
+          setErrorMessage("");
+        }}
         fullWidth
       />
 
-      <StyledButton type="submit" loading={loading} fullWidth>
+      <StyledSubmitButton type="submit" loading={loading} fullWidth>
         Add
-      </StyledButton>
-
-      {errorMessage}
-    </form>
+      </StyledSubmitButton>
+    </StyledForm>
   );
 };
