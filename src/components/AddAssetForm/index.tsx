@@ -13,13 +13,10 @@ export const AddAssetForm = ({ onSuccess, onError }: AddAssetFormProps) => {
   const [assetCode, setAssetCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const onFormError = useCallback(
-    (message: string) => {
-      setErrorMessage(message);
-      onError?.({ assetCode, message });
-    },
-    [setErrorMessage, onError],
-  );
+  const onFormError = (message: string) => {
+    setErrorMessage(message);
+    onError?.({ assetCode, message });
+  };
 
   const [getAssetLastPrice, { loading }] = useAssetLastPriceLazyQuery();
 
@@ -46,6 +43,7 @@ export const AddAssetForm = ({ onSuccess, onError }: AddAssetFormProps) => {
   return (
     <StyledForm onSubmit={onSubmit}>
       <Input
+        fullWidth
         name="assetCode"
         label="CRYPTOCURRENCY CODE"
         value={assetCode}
@@ -54,7 +52,6 @@ export const AddAssetForm = ({ onSuccess, onError }: AddAssetFormProps) => {
           setAssetCode(event.target.value.toUpperCase());
           setErrorMessage("");
         }}
-        fullWidth
       />
 
       <StyledSubmitButton type="submit" loading={loading} fullWidth>

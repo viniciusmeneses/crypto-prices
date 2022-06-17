@@ -17,20 +17,11 @@ import {
   TitlesSection,
 } from "./styles";
 
+const removeAssetCode = (assetCodes: string[], code: string) =>
+  assetCodes.filter((assetCode) => code !== assetCode);
+
 export const MainPage = () => {
   const [assetCodes, setAssetCodes] = useState<string[]>([]);
-
-  const onAddAsset: NonNullable<AddAssetFormProps["onSuccess"]> = useCallback(
-    ({ assetCode }) =>
-      setAssetCodes((codes) => [assetCode, ...codes.filter((code) => assetCode !== code)]),
-    [setAssetCodes],
-  );
-
-  const onRemoveAsset = useCallback(
-    (assetCode: string) => () =>
-      setAssetCodes((codes) => codes.filter((code) => assetCode !== code)),
-    [setAssetCodes],
-  );
 
   return (
     <Page>
@@ -53,7 +44,11 @@ export const MainPage = () => {
         </TitlesSection>
 
         <AddAssetCard>
-          <AddAssetForm onSuccess={onAddAsset} />
+          <AddAssetForm
+            onSuccess={({ assetCode }) =>
+              setAssetCodes((codes) => [assetCode, ...removeAssetCode(codes, assetCode)])
+            }
+          />
 
           <TermsAndConditionsText>
             Use of this service is subject to terms and conditions.
@@ -63,8 +58,12 @@ export const MainPage = () => {
         <AssetsListSection>
           {assetCodes.length > 0 && (
             <AssetsList>
-              {assetCodes.map((code) => (
-                <Asset key={code} code={code} onRemove={onRemoveAsset(code)} />
+              {assetCodes.map((assetCode) => (
+                <Asset
+                  key={assetCode}
+                  code={assetCode}
+                  onRemove={() => setAssetCodes((codes) => removeAssetCode(codes, assetCode))}
+                />
               ))}
             </AssetsList>
           )}

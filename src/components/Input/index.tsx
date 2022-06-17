@@ -1,4 +1,4 @@
-import { FocusEvent, InputHTMLAttributes, LabelHTMLAttributes, useCallback, useState } from "react";
+import { InputHTMLAttributes, LabelHTMLAttributes, useState } from "react";
 
 import { StyledContainer, StyledErrorText, StyledInput, StyledLabel } from "./styles";
 
@@ -27,22 +27,6 @@ export const Input = ({
 }: InputProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
-  const onInputFocus = useCallback(
-    (event: FocusEvent<HTMLInputElement>) => {
-      setIsFocused(true);
-      onFocus?.(event);
-    },
-    [onFocus],
-  );
-
-  const onInputBlur = useCallback(
-    (event: FocusEvent<HTMLInputElement>) => {
-      setIsFocused(false);
-      onBlur?.(event);
-    },
-    [onBlur],
-  );
-
   return (
     <StyledContainer fullWidth={fullWidth}>
       {label && (
@@ -62,8 +46,14 @@ export const Input = ({
         value={value}
         error={error}
         fullWidth={fullWidth}
-        onFocus={onInputFocus}
-        onBlur={onInputBlur}
+        onFocus={(event) => {
+          setIsFocused(true);
+          onFocus?.(event);
+        }}
+        onBlur={(event) => {
+          setIsFocused(false);
+          onBlur?.(event);
+        }}
         {...props}
       />
 

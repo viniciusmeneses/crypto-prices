@@ -31,6 +31,7 @@ export const Asset = ({ code, onRemove }: AssetProps) => {
           {loading ? "Loading..." : !price || error ? "Failed to load price" : `${price} €`}
         </Text>
       </StyledData>
+
       <StyledRemoveButton onClick={onRemove}>&times;</StyledRemoveButton>
     </StyledContainer>
   );
