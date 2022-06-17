@@ -1,19 +1,30 @@
 import { FocusEvent, InputHTMLAttributes, LabelHTMLAttributes, useCallback, useState } from "react";
 
-import { StyledContainer, StyledInput, StyledLabel } from "./styles";
+import { StyledContainer, StyledErrorText, StyledInput, StyledLabel } from "./styles";
 
 export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
   label?: string;
   fullWidth?: boolean;
+  error?: string;
 };
 
 export type LabelProps = LabelHTMLAttributes<HTMLLabelElement> & {
   focus: boolean;
   shrink: boolean;
+  invalid: boolean;
 };
 
-export const Input = ({ label, name, value, onFocus, onBlur, ...props }: InputProps) => {
+export const Input = ({
+  label,
+  name,
+  value,
+  error,
+  fullWidth = false,
+  onFocus,
+  onBlur,
+  ...props
+}: InputProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const onInputFocus = useCallback(
@@ -33,9 +44,14 @@ export const Input = ({ label, name, value, onFocus, onBlur, ...props }: InputPr
   );
 
   return (
-    <StyledContainer>
+    <StyledContainer fullWidth={fullWidth}>
       {label && (
-        <StyledLabel htmlFor={name} shrink={isFocused || Boolean(value)} focus={isFocused}>
+        <StyledLabel
+          htmlFor={name}
+          shrink={isFocused || Boolean(value)}
+          focus={isFocused}
+          invalid={Boolean(error)}
+        >
           {label}
         </StyledLabel>
       )}
@@ -44,10 +60,14 @@ export const Input = ({ label, name, value, onFocus, onBlur, ...props }: InputPr
         id={name}
         name={name}
         value={value}
+        error={error}
+        fullWidth={fullWidth}
         onFocus={onInputFocus}
         onBlur={onInputBlur}
         {...props}
       />
+
+      {error && <StyledErrorText>{error}</StyledErrorText>}
     </StyledContainer>
   );
 };

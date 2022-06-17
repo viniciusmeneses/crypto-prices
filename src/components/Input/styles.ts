@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
+import { Text } from "../Text";
 import { InputProps, LabelProps } from ".";
 
-export const StyledContainer = styled.div`
+export const StyledContainer = styled.div<{ fullWidth?: boolean }>`
+  width: ${({ fullWidth }) => (fullWidth ? "100%" : "auto")};
   position: relative;
 `;
 
@@ -16,10 +18,15 @@ export const StyledLabel = styled.label<LabelProps>`
   box-sizing: content-box;
   transition: ease 0.2s;
   pointer-events: none;
-  color: ${({ focus, theme }) => (focus ? theme.colors.primary : theme.colors.gray)};
   letter-spacing: 0.05rem;
 
-  ${({ shrink }) => shrink && `top: -0.40rem; font-size: 0.70rem;`}
+  color: ${({ focus, invalid, theme }) => {
+    if (focus) return theme.colors.primary;
+    if (invalid) return theme.colors.error;
+    return theme.colors.gray;
+  }};
+
+  ${({ shrink }) => shrink && `top: -0.40rem; font-size: 0.7rem;`}
 `;
 
 export const StyledInput = styled.input<InputProps>`
@@ -28,7 +35,7 @@ export const StyledInput = styled.input<InputProps>`
   transition: box-shadow 0.2s ease;
   border: 1px solid;
   border-radius: 0.25rem;
-  border-color: ${({ theme }) => theme.colors.gray};
+  border-color: ${({ theme, error }) => (error ? theme.colors.error : theme.colors.gray)};
   width: ${({ fullWidth }) => (fullWidth ? "100%" : "auto")};
 
   &:focus-visible {
@@ -36,4 +43,13 @@ export const StyledInput = styled.input<InputProps>`
     box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.primary};
     border-color: ${({ theme }) => theme.colors.primary};
   }
+`;
+
+export const StyledErrorText = styled(Text).attrs({ as: "span" })`
+  color: ${({ theme }) => theme.colors.error};
+  font-weight: 400;
+  margin: 0 1rem;
+  padding-top: 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.05rem;
 `;
