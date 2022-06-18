@@ -1,27 +1,28 @@
-import { useState } from "react";
-
-import logo from "../../assets/images/logo.svg";
-import { AddAssetForm, Asset, Card, Title } from "../../components";
+import logo from "../../assets/images/logo.png";
 import {
   AddAssetContainer,
+  AddAssetForm,
+  Asset,
   AssetsList,
+  Card,
+  Footer,
+  Title,
+  TitlesSection,
+} from "../../components";
+import { useAssetCodes } from "../../models/asset";
+import {
   AssetsListSection,
   Container,
-  Footer,
   FooterText,
   Header,
   LogoImg,
   Page,
   Subtitle,
   TermsAndConditionsText,
-  TitlesSection,
 } from "./styles";
 
-const removeAssetCode = (assetCodes: string[], code: string) =>
-  assetCodes.filter((assetCode) => code !== assetCode);
-
 export const MainPage = () => {
-  const [assetCodes, setAssetCodes] = useState<string[]>([]);
+  const assetCodes = useAssetCodes();
 
   return (
     <Page>
@@ -45,11 +46,7 @@ export const MainPage = () => {
 
         <AddAssetContainer>
           <Card>
-            <AddAssetForm
-              onSuccess={({ assetCode }) =>
-                setAssetCodes((codes) => [assetCode, ...removeAssetCode(codes, assetCode)])
-              }
-            />
+            <AddAssetForm onSuccess={({ assetCode }) => assetCodes.add(assetCode)} />
 
             <TermsAndConditionsText>
               Use of this service is subject to terms and conditions.
@@ -57,19 +54,19 @@ export const MainPage = () => {
           </Card>
         </AddAssetContainer>
 
-        <AssetsListSection>
-          {assetCodes.length > 0 && (
+        {assetCodes.list.length > 0 && (
+          <AssetsListSection>
             <AssetsList>
-              {assetCodes.map((assetCode) => (
+              {assetCodes.list.map((assetCode) => (
                 <Asset
                   key={assetCode}
                   code={assetCode}
-                  onRemove={() => setAssetCodes((codes) => removeAssetCode(codes, assetCode))}
+                  onRemove={() => assetCodes.remove(assetCode)}
                 />
               ))}
             </AssetsList>
-          )}
-        </AssetsListSection>
+          </AssetsListSection>
+        )}
       </Container>
 
       <Footer>

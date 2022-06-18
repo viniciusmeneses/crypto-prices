@@ -1,5 +1,5 @@
 {
-  "name": "yolo-crypto-prices",
+  "name": "crypto-prices",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

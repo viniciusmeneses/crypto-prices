@@ -77,66 +77,12 @@ export const Container = styled.div`
   }
 `;
 
-export const TitlesSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-
-  & > * {
-    margin-top: 1rem;
-  }
-
-  @media (max-width: 1000px) {
-    & {
-      flex: 0;
-      margin: 0;
-    }
-  }
-`;
-
-export const AddAssetContainer = styled.div`
-  width: 25rem;
-
-  @media (max-width: 1280px) {
-    & {
-      flex: 1;
-      width: auto;
-      padding-left: 5rem;
-    }
-  }
-
-  @media (max-width: 1000px) {
-    & {
-      padding: 0;
-      margin-top: 2rem;
-      flex: 0;
-    }
-  }
-`;
-
 export const TermsAndConditionsText = styled(Text).attrs({
   color: "gray",
 })`
   margin-top: 2rem;
   text-align: center;
   font-weight: 300;
-`;
-
-export const Footer = styled.footer`
-  background-color: ${({ theme }) => theme.colors.white};
-  padding: 3.5rem 10rem 2rem 10rem;
-
-  @media (max-width: 1000px) {
-    & {
-      padding: 3.5rem 8rem 2rem 8rem;
-    }
-  }
-
-  @media (max-width: 768px) {
-    & {
-      padding: 3.5rem 3rem 2rem 3rem;
-    }
-  }
 `;
 
 export const FooterText = styled(Text).attrs({
@@ -147,28 +93,4 @@ export const FooterText = styled(Text).attrs({
 
 export const AssetsListSection = styled.section`
   width: 100%;
-`;
-
-export const AssetsList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  margin-top: 2rem;
-  padding: 0;
-  padding-right: 1rem;
-  overflow-y: auto;
-  max-width: 20rem;
-  max-height: 17rem;
-
-  & > li {
-    border-bottom: 1px solid ${({ theme }) => transparentize(0.3, theme.colors.whiteTransparent)};
-    padding: 1rem 0;
-  }
-
-  @media (max-width: 1000px) {
-    & {
-      max-width: 100%;
-      max-height: 100%;
-    }
-  }
 `;

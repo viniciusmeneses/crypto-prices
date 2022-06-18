@@ -45,7 +45,7 @@ export const AddAssetForm = ({ onSuccess, onError }: AddAssetFormProps) => {
       <Input
         fullWidth
         name="assetCode"
-        label="CRYPTOCURRENCY CODE"
+        label="Cryptocurrency Code"
         value={assetCode}
         error={errorMessage}
         onChange={(event) => {

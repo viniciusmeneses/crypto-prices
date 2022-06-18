@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 
 import cupIcon from "../../assets/images/cupIcon.svg";
-import { useAssetLastPriceQuery } from "../../graphql/generated";
+import { AssetLastPriceQuery, useAssetLastPriceQuery } from "../../graphql/generated";
+import { findAssetPrice } from "../../models/asset";
 import { Text } from "../Text";
 import { StyledCode, StyledContainer, StyledData, StyledIcon, StyledRemoveButton } from "./styles";
 
@@ -10,16 +11,15 @@ export interface AssetProps {
   onRemove: () => void;
 }
 
+const AssetPrice = ({ markets }: AssetLastPriceQuery) => {
+  const price = useMemo(() => findAssetPrice(markets)?.toFixed(2), [JSON.stringify(markets)]);
+  return <>{price ? `${price} €` : "Failed to load price"}</>;
+};
+
 export const Asset = ({ code, onRemove }: AssetProps) => {
-  const { data, loading, error } = useAssetLastPriceQuery({
+  const { data, loading } = useAssetLastPriceQuery({
     variables: { code, currency: "EUR" },
   });
-
-  const price = useMemo(() => {
-    const market = data?.markets.find((market) => market.ticker?.lastPrice);
-    const lastPrice = market?.ticker?.lastPrice;
-    if (lastPrice) return parseFloat(lastPrice).toFixed(2);
-  }, [data]);
 
   return (
     <StyledContainer>
@@ -28,7 +28,7 @@ export const Asset = ({ code, onRemove }: AssetProps) => {
       <StyledData>
         <StyledCode>{code}</StyledCode>
         <Text as="span" color="whiteTransparent">
-          {loading ? "Loading..." : !price || error ? "Failed to load price" : `${price} €`}
+          {loading ? "Loading..." : <AssetPrice markets={data?.markets ?? []} />}
         </Text>
       </StyledData>
 
