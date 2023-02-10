@@ -45,4 +45,17 @@ describe("MainPage", () => {
       expect(assets.length).toBe(2);
     });
   });
+
+  it("should remove asset from the list on remove", async () => {
+    render(<MainPage />);
+
+    const assetCodeInput = screen.getByRole("textbox", { name: /cryptocurrency code/i });
+    userEvent.type(assetCodeInput, "BTC{enter}");
+
+    const removeButton = await screen.findByRole("button", { name: "×" });
+    userEvent.click(removeButton);
+
+    const asset = screen.queryByRole("listitem");
+    expect(asset).not.toBeInTheDocument();
+  });
 });
