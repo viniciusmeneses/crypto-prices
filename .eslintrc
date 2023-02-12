@@ -17,5 +17,13 @@
     "simple-import-sort/exports": "error",
     "simple-import-sort/imports": "error",
     "react/jsx-no-useless-fragment": ["error", { "allowExpressions": true }]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.test.tsx"],
+      "rules": {
+        "max-nested-callbacks": "off"
+      }
+    }
+  ]
 }

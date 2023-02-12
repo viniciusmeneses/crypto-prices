@@ -5,7 +5,7 @@ import { render } from "../../mocks";
 import { Text } from ".";
 
 describe("Text", () => {
-  it("should render text", () => {
+  it("should render correct text", () => {
     render(<Text>Sample</Text>);
     const text = screen.getByText("Sample");
     expect(text).toBeInTheDocument();

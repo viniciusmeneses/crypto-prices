@@ -29,10 +29,10 @@ export const AddAssetForm = ({ onSuccess, onError }: AddAssetFormProps) => {
         variables: { code: assetCode, currency: "EUR" },
       });
 
-      if (error) return onFormError("FAILED TO GET CRYPTOCURRENCY");
+      if (error) return onFormError("Failed to get cryptocurrency");
 
       const anyMarketPrice = data?.markets.some((market) => market.ticker?.lastPrice);
-      if (!anyMarketPrice) return onFormError("INVALID CODE");
+      if (!anyMarketPrice) return onFormError("Invalid code");
 
       setAssetCode("");
       onSuccess({ assetCode });

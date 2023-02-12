@@ -6,11 +6,11 @@ import { AssetLastPriceQuery } from "../../graphql/generated";
 import { graphqlServer, render } from "../../mocks";
 import { Asset } from ".";
 
-const fn = () => {};
+const mockProps = { code: "BTC", onRemove: jest.fn() };
 
 describe("Asset", () => {
   it("should render asset code and price", async () => {
-    render(<Asset code="BTC" onRemove={fn} />);
+    render(<Asset {...mockProps} />);
     const assetCode = screen.getByText("BTC");
     const assetPrice = await screen.findByText("20000.00 €");
 
@@ -18,32 +18,36 @@ describe("Asset", () => {
     expect(assetPrice).toBeInTheDocument();
   });
 
-  it("should trigger onRemove on click remove button", () => {
-    const onRemove = jest.fn();
+  describe("when click on remove button", () => {
+    it("should trigger onRemove", () => {
+      render(<Asset {...mockProps} />);
+      const removeButton = screen.getByRole("button");
 
-    render(<Asset code="BTC" onRemove={onRemove} />);
-    const removeButton = screen.getByRole("button");
+      userEvent.click(removeButton);
 
-    userEvent.click(removeButton);
-
-    expect(onRemove).toBeCalled();
+      expect(mockProps.onRemove).toBeCalled();
+    });
   });
 
-  it("should show loading message while fetching asset data", () => {
-    render(<Asset code="BTC" onRemove={fn} />);
-    const loadingText = screen.getByText("Loading...");
-    expect(loadingText).toBeInTheDocument();
+  describe("when fetching asset", () => {
+    it("should render loading message", () => {
+      render(<Asset {...mockProps} />);
+      const loadingText = screen.getByText("Loading...");
+      expect(loadingText).toBeInTheDocument();
+    });
   });
 
-  it("should show error message on API error", async () => {
-    graphqlServer.use(
-      graphql.query<AssetLastPriceQuery>("AssetLastPrice", (_, res, ctx) =>
-        res(ctx.errors([{ message: "Sample error" }])),
-      ),
-    );
+  describe("when API returns an error", () => {
+    it("should render error message", async () => {
+      graphqlServer.use(
+        graphql.query<AssetLastPriceQuery>("AssetLastPrice", (_, res, ctx) =>
+          res(ctx.errors([{ message: "Sample error" }])),
+        ),
+      );
 
-    render(<Asset code="INVALID" onRemove={fn} />);
-    const errorMessage = await screen.findByText("Failed to load price");
-    expect(errorMessage).toBeInTheDocument();
+      render(<Asset {...mockProps} code="INVALID" />);
+      const errorMessage = await screen.findByText("Failed to load price");
+      expect(errorMessage).toBeInTheDocument();
+    });
   });
 });
