@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import cupIcon from "../../assets/images/cupIcon.svg";
+import cup from "../../assets/images/cup.svg";
 import { AssetLastPriceQuery, useAssetLastPriceQuery } from "../../graphql/generated";
 import { findAssetPrice } from "../../models/asset";
 import { Text } from "../Text";
@@ -23,7 +23,7 @@ export const Asset = ({ code, onRemove }: AssetProps) => {
 
   return (
     <StyledContainer>
-      <StyledIcon src={cupIcon} alt="Icon" title="Icon" />
+      <StyledIcon src={cup} alt="Icon" title="Icon" />
 
       <StyledData>
         <StyledCode>{code}</StyledCode>
